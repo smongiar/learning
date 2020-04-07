@@ -1,0 +1,25 @@
+info:
+  application:
+    context-path: medici-graduatoria-be
+logging:
+  level:
+    root: INFO
+    app: DEBUG
+    call: DEBUG
+    timing: DEBUG
+    spring: INFO
+    restTemplate: DEBUG
+    http: DEBUG
+    it:
+      toscana:
+        regione:
+          medici: DEBUG
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+server:
+  port: 8081
+  servlet:
+    contextPath: /medici-graduatoria-be  

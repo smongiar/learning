@@ -1,0 +1,30 @@
+{
+    "kind": "Service",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "medici-graduatoria-be",
+        "namespace": "medici",
+        "selfLink": "/api/v1/namespaces/formulari/services/medici-graduatoria-be",
+        "labels": {
+            "name": "medici-graduatoria-be",
+            "group": "medici"
+        }
+    },
+    "spec": {
+        "ports": [{
+            "protocol": "TCP",
+            "port": 9091,
+            "targetPort": 9091,
+            "nodePort": 32701
+        }],
+        "selector": {
+            "name": "medici-graduatoria-be"
+        },
+        "type": "LoadBalancer",
+        "sessionAffinity": "None",
+        "externalTrafficPolicy": "Cluster"
+    },
+    "status": {
+        "loadBalancer": {}
+    }
+}

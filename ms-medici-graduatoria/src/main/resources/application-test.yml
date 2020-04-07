@@ -1,0 +1,13 @@
+logging:
+  level:
+    root: INFO
+    app: DEBUG
+    call: DEBUG
+    timing: DEBUG
+    spring: INFO
+    restTemplate: DEBUG
+    http: DEBUG
+    it:
+      toscana:
+        regione:
+          medici: DEBUG
