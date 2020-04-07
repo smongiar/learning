@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+	<root level="${logging.level.root:-WARN}">
+		<appender-ref ref="appAppender" />
+	</root>
+	<Logger name="${CONTROLLER_LOGGER_NAME}"
+		level="${logging.level.call:-INFO}" additivity="false">
+		<appender-ref ref="callAppender" />
+	</Logger>
+	<Logger name="it.regione" level="${logging.level.app:-INFO}"
+		additivity="false">
+		<appender-ref ref="appAppender" />
+	</Logger>
+	<Logger name="org.springframework" level="${logging.level.spring:-INFO}"
+		additivity="false">
+		<appender-ref ref="appAppender" />
+	</Logger>
+	
+	<Logger name="it.toscana.regione"
+		level="INFO" additivity="false">
+		<appender-ref ref="traceAppender" />
+	</Logger>
+	<Logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"
+		level="${logging.level.mappingRest:-TRACE}" additivity="false">
+		<appender-ref ref="appAppender" />
+	</Logger>	
+	<Logger name="org.springframework.web.client.RestTemplate"
+		level="${logging.level.restTemplate:-INFO}" additivity="false">
+		<appender-ref ref="appAppender" />
+	</Logger>
+	<Logger name="org.springframework.boot.actuate.audit"
+		level="OFF" />
+</included>
