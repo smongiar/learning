@@ -1,0 +1,115 @@
+kind: List
+apiVersion: v1
+metadata: {}
+items:
+- kind: ImageStream
+  apiVersion: v1
+  metadata:
+    name: nodejs-build
+    generation: 1
+    labels:
+      app: nodejs-build
+  spec:
+    tags:
+    - name: latest
+      from:
+        kind: ImageStreamTag
+        name: nodejs-build:latest
+- kind: DeploymentConfig
+  apiVersion: v1
+  metadata:
+    name: nodejs-build
+    labels:
+      app: nodejs-build
+  spec:
+    strategy:
+      type: Rolling
+      rollingParams:
+        updatePeriodSeconds: 1
+        intervalSeconds: 1
+        timeoutSeconds: 600
+        maxUnavailable: 25%
+        maxSurge: 25%
+      resources: {}
+    triggers:
+    - type: ConfigChange
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+        - nodejs-build
+        from:
+          kind: ImageStreamTag
+          name: nodejs-build:latest
+    replicas: 1
+    test: false
+    selector:
+      app: nodejs-build
+      deploymentconfig: nodejs-build
+    template:
+      metadata:
+        labels:
+          app: nodejs-build
+          deploymentconfig: nodejs-build
+      spec:
+        containers:
+        - name: nodejs-build
+          image: nodejs-build
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          env:
+          - name: OPENSHIFT_NODEJS_PORT
+            value: '8080'
+          - name: BACKGROUND_MSG
+            valueFrom:
+              configMapKeyRef:
+                name: config
+                key: message
+          volumeMounts:
+          - name: app-config
+            mountPath: "/etc/nodejs-build/"
+          resources: {}
+          terminationMessagePath: "/dev/termination-log"
+          imagePullPolicy: Always
+        volumes:
+        - name: app-config
+          configMap:
+            name: config
+            items:
+            - key: ui.properties
+              path: nodejs-build.config
+        restartPolicy: Always
+        terminationGracePeriodSeconds: 30
+        dnsPolicy: ClusterFirst
+        securityContext: {}
+- kind: Service
+  apiVersion: v1
+  metadata:
+    name: nodejs-build
+    labels:
+      app: nodejs-build
+  spec:
+    ports:
+    - name: 8080-tcp
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+    selector:
+      app: nodejs-build
+      deploymentconfig: nodejs-build
+    type: ClusterIP
+    sessionAffinity: None
+- kind: Route
+  apiVersion: v1
+  metadata:
+    name: nodejs-build
+    labels:
+      app: nodejs-build
+  spec:
+    host: ''
+    to:
+      kind: Service
+      name: nodejs-build
+    port:
+      targetPort: 8080-tcp

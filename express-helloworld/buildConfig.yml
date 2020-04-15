@@ -1,0 +1,51 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftNewBuild
+  creationTimestamp: '2020-04-10T15:09:12Z'
+  labels:
+    build: nodejs-build
+  name: nodejs-build
+  namespace: smongiar
+  resourceVersion: '52895363'
+  selfLink: /apis/build.openshift.io/v1/namespaces/smongiar/buildconfigs/nodejs-build
+  uid: 3c9c58d9-7b3d-11ea-b2cb-fa163e085d82
+spec:
+  failedBuildsHistoryLimit: 5
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'nodejs-build:latest'
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    contextDir: express-helloworld
+    git:
+      ref: troubleshoot
+      uri: 'https://github.com/smongiar/learning.git'
+    type: Git
+  strategy:
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: 'nodejs:10'
+        namespace: openshift
+    type: Source
+  successfulBuildsHistoryLimit: 5
+  triggers:
+    - github:
+        secret: 1nkDotCwdm-pTgi3SxJY
+      type: GitHub
+    - generic:
+        secret: lkwoUMZJLuNMNczalpTd
+      type: Generic
+    - type: ConfigChange
+    - imageChange:
+        lastTriggeredImageID: >-
+          docker-registry.default.svc:5000/openshift/nodejs@sha256:74a3ef2964efc03dfc239da3f09691b720ce54ff4bb47588864adb222133f0fc
+      type: ImageChange
+status:
+  lastVersion: 1
