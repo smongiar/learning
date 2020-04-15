@@ -5,3 +5,8 @@
 [submodule "ose-app-promotion-configmap"]
 	path = ose-app-promotion-configmap
 	url = https://github.com/smongiar/learning.git
+	branch = master
+[submodule "DO101-apps"]
+	path = DO101-apps
+	url = https://github.com/smongiar/learning.git
+	branch = master
