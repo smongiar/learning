@@ -1,6 +1,6 @@
 FROM fabric8/java-alpine-openjdk8-jdk
 
-MAINTAINER francesco.rotello@eng.it
+MAINTAINER smongiar@redhat.com
 
 ENV TZ=Europe/Rome
 
