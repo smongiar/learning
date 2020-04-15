@@ -2,3 +2,6 @@
 	path = learning
 	url = https://github.com/smongiar/learning/
 	branch = master
+[submodule "ose-app-promotion-configmap"]
+	path = ose-app-promotion-configmap
+	url = https://github.com/smongiar/learning.git
